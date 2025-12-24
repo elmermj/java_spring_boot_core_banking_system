@@ -1,0 +1,75 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.aethelcbs:api-gateway >----------------------
+[INFO] Building api-gateway 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.1:run (default-cli) > test-compile @ api-gateway >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ api-gateway ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ api-gateway ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ api-gateway ---
+[INFO] skip non existing resourceDirectory /Users/elmermatthewjapara/Documents/experiments/java_spring_boot_core_banking_system/api-gateway/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ api-gateway ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:4.0.1:run (default-cli) < test-compile @ api-gateway <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.1:run (default-cli) @ api-gateway ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.1)
+
+2025-12-22T18:12:27.091+07:00  INFO 51628 --- [api-gateway] [           main] c.a.api_gateway.ApiGatewayApplication    : Starting ApiGatewayApplication using Java 17.0.15 with PID 51628 (/Users/elmermatthewjapara/Documents/experiments/java_spring_boot_core_banking_system/api-gateway/target/classes started by elmermatthewjapara in /Users/elmermatthewjapara/Documents/experiments/java_spring_boot_core_banking_system/api-gateway)
+2025-12-22T18:12:27.093+07:00  INFO 51628 --- [api-gateway] [           main] c.a.api_gateway.ApiGatewayApplication    : No active profile set, falling back to 1 default profile: "default"
+2025-12-22T18:12:27.381+07:00  INFO 51628 --- [api-gateway] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-22T18:12:27.382+07:00  INFO 51628 --- [api-gateway] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-12-22T18:12:27.392+07:00  INFO 51628 --- [api-gateway] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2025-12-22T18:12:27.485+07:00  INFO 51628 --- [api-gateway] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=c0b4e652-ec92-3a17-9c60-239b00bea24d
+2025-12-22T18:12:27.578+07:00  INFO 51628 --- [api-gateway] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2025-12-22T18:12:27.583+07:00  INFO 51628 --- [api-gateway] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-22T18:12:27.583+07:00  INFO 51628 --- [api-gateway] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2025-12-22T18:12:27.604+07:00  INFO 51628 --- [api-gateway] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 489 ms
+2025-12-22T18:12:27.872+07:00  WARN 51628 --- [api-gateway] [           main] i.n.r.d.DnsServerAddressStreamProviders  : Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+2025-12-22T18:12:28.010+07:00  WARN 51628 --- [api-gateway] [           main] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 559ada28-2360-4201-b5da-43706d5ff409
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-12-22T18:12:28.020+07:00  INFO 51628 --- [api-gateway] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-12-22T18:12:28.080+07:00  INFO 51628 --- [api-gateway] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-22T18:12:28.175+07:00  INFO 51628 --- [api-gateway] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2025-12-22T18:12:28.183+07:00  INFO 51628 --- [api-gateway] [           main] c.a.api_gateway.ApiGatewayApplication    : Started ApiGatewayApplication in 1.26 seconds (process running for 1.469)
+2025-12-22T18:12:41.216+07:00  INFO 51628 --- [api-gateway] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-22T18:12:41.217+07:00  INFO 51628 --- [api-gateway] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-22T18:12:41.219+07:00  INFO 51628 --- [api-gateway] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-12-22T18:12:41.231+07:00  WARN 51628 --- [api-gateway] [nio-8080-exec-1] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/actuator/health' (previous null). Performing CorsConfiguration lookup. This is logged once only at WARN level, and every time at TRACE.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  29.745 s
+[INFO] Finished at: 2025-12-22T18:12:55+07:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.1:run (default-cli) on project api-gateway: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

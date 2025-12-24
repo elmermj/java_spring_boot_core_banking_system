@@ -1,0 +1,89 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.aethelcbs:audit-service >---------------------
+[INFO] Building audit-service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.1:run (default-cli) > test-compile @ audit-service >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ audit-service ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ audit-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ audit-service ---
+[INFO] skip non existing resourceDirectory /Users/elmermatthewjapara/Documents/experiments/java_spring_boot_core_banking_system/audit-service/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ audit-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:4.0.1:run (default-cli) < test-compile @ audit-service <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.1:run (default-cli) @ audit-service ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.1)
+
+2025-12-22T18:12:01.929+07:00  INFO 50734 --- [audit-service] [           main] c.a.a.AuditServiceApplication            : Starting AuditServiceApplication using Java 17.0.15 with PID 50734 (/Users/elmermatthewjapara/Documents/experiments/java_spring_boot_core_banking_system/audit-service/target/classes started by elmermatthewjapara in /Users/elmermatthewjapara/Documents/experiments/java_spring_boot_core_banking_system/audit-service)
+2025-12-22T18:12:01.930+07:00  INFO 50734 --- [audit-service] [           main] c.a.a.AuditServiceApplication            : No active profile set, falling back to 1 default profile: "default"
+2025-12-22T18:12:02.183+07:00  INFO 50734 --- [audit-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-22T18:12:02.194+07:00  INFO 50734 --- [audit-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
+2025-12-22T18:12:02.377+07:00  INFO 50734 --- [audit-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8084 (http)
+2025-12-22T18:12:02.381+07:00  INFO 50734 --- [audit-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-22T18:12:02.382+07:00  INFO 50734 --- [audit-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2025-12-22T18:12:02.404+07:00  INFO 50734 --- [audit-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 456 ms
+2025-12-22T18:12:02.581+07:00  INFO 50734 --- [audit-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-22T18:12:02.627+07:00  INFO 50734 --- [audit-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@d70e9a
+2025-12-22T18:12:02.627+07:00  INFO 50734 --- [audit-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-22T18:12:02.638+07:00  INFO 50734 --- [audit-service] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/jsb_cbs_audit (PostgreSQL 14.16)
+2025-12-22T18:12:02.659+07:00  INFO 50734 --- [audit-service] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 0 migrations (execution time 00:00.008s)
+2025-12-22T18:12:02.659+07:00  WARN 50734 --- [audit-service] [           main] o.f.core.internal.command.DbValidate     : No migrations found. Are your locations set up correctly?
+2025-12-22T18:12:02.675+07:00  INFO 50734 --- [audit-service] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2025-12-22T18:12:02.676+07:00  INFO 50734 --- [audit-service] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-22T18:12:02.703+07:00  INFO 50734 --- [audit-service] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2025-12-22T18:12:02.725+07:00  INFO 50734 --- [audit-service] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.0.Final
+2025-12-22T18:12:02.882+07:00  INFO 50734 --- [audit-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-22T18:12:02.925+07:00  INFO 50734 --- [audit-service] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/jsb_cbs_audit]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 14.16
+	Default catalog/schema: jsb_cbs_audit/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-22T18:12:03.077+07:00  INFO 50734 --- [audit-service] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-22T18:12:03.080+07:00  INFO 50734 --- [audit-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-22T18:12:03.298+07:00  INFO 50734 --- [audit-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-22T18:12:03.333+07:00  INFO 50734 --- [audit-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8084 (http) with context path '/'
+2025-12-22T18:12:03.337+07:00  INFO 50734 --- [audit-service] [           main] c.a.a.AuditServiceApplication            : Started AuditServiceApplication in 1.562 seconds (process running for 1.7)
+2025-12-22T18:12:40.947+07:00  INFO 50734 --- [audit-service] [nio-8084-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-22T18:12:40.950+07:00  INFO 50734 --- [audit-service] [nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-22T18:12:40.953+07:00  INFO 50734 --- [audit-service] [nio-8084-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  54.994 s
+[INFO] Finished at: 2025-12-22T18:12:56+07:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.1:run (default-cli) on project audit-service: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

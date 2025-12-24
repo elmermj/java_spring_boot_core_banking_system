@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: transaction-orchestrator
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jsb_cbs_orchestrator
+    username: jsb
+    password: jsb
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  flyway:
+    enabled: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: transaction-orchestrator
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+    listener:
+      ack-mode: manual
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

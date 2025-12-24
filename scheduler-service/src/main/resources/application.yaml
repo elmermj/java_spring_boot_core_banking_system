@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: scheduler-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jsb_cbs_scheduler
+    username: jsb
+    password: jsb
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  flyway:
+    enabled: true
+
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+    properties:
+      org.quartz.threadPool.threadCount: 2
+      org.quartz.jobStore.acquireTriggersWithinLock: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+server:
+  port: 8086
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
