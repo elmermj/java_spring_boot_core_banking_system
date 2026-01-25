@@ -36,9 +36,15 @@ app:
       service-account-key: ${FCM_SERVICE_ACCOUNT_KEY_PATH:}
     apns:
       enabled: ${APNS_ENABLED:false}
-      key-store-path: ${APNS_KEY_STORE_PATH:}
-      key-store-password: ${APNS_KEY_STORE_PASSWORD:}
+      # Token-based authentication (.p8 key file) - Recommended by Apple
+      p8-key-path: ${APNS_P8_KEY_PATH:}
       team-id: ${APNS_TEAM_ID:}
       key-id: ${APNS_KEY_ID:}
       bundle-id: ${APNS_BUNDLE_ID:}
       production: ${APNS_PRODUCTION:false}
+      connection-timeout-seconds: 10
+    retry:
+      max-attempts: ${PUSH_RETRY_MAX_ATTEMPTS:3}
+      initial-delay-ms: ${PUSH_RETRY_INITIAL_DELAY_MS:1000}
+      max-delay-ms: ${PUSH_RETRY_MAX_DELAY_MS:30000}
+      backoff-multiplier: ${PUSH_RETRY_BACKOFF_MULTIPLIER:2.0}

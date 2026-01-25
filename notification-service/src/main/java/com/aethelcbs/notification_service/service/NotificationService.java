@@ -3,12 +3,15 @@ package com.aethelcbs.notification_service.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aethelcbs.notification_service.dto.PushNotificationRequest;
+import com.aethelcbs.notification_service.dto.PushNotificationResult;
 import com.aethelcbs.notification_service.entity.DevicePushToken;
 import com.aethelcbs.notification_service.repository.DevicePushTokenRepository;
 
@@ -18,20 +21,17 @@ public class NotificationService {
     private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
     
     private final DevicePushTokenRepository devicePushTokenRepository;
-    private final FcmService fcmService;
-    private final ApnsService apnsService;
+    private final UnifiedPushNotificationService unifiedPushService;
     
     public NotificationService(DevicePushTokenRepository devicePushTokenRepository,
-                               FcmService fcmService,
-                               ApnsService apnsService) {
+                               UnifiedPushNotificationService unifiedPushService) {
         this.devicePushTokenRepository = devicePushTokenRepository;
-        this.fcmService = fcmService;
-        this.apnsService = apnsService;
+        this.unifiedPushService = unifiedPushService;
     }
     
     /**
      * Send logout notification to a device
-     * Looks up the device's push token and sends via FCM (Android) or APNS (iOS)
+     * Uses unified push service with retry logic
      */
     public void sendLogoutNotification(String deviceId, String accountNumber) {
         try {
@@ -47,23 +47,55 @@ public class NotificationService {
             String body = "You have been logged out from another device. Please login again.";
             
             for (DevicePushToken token : tokens) {
-                try {
-                    if ("FCM".equals(token.getPushService()) && fcmService.isEnabled()) {
-                        fcmService.sendNotification(token.getPushToken(), title, body);
-                        logger.info("Sent FCM logout notification to device: {}", deviceId);
-                    } else if ("APNS".equals(token.getPushService()) && apnsService.isEnabled()) {
-                        apnsService.sendNotification(token.getPushToken(), title, body);
-                        logger.info("Sent APNS logout notification to device: {}", deviceId);
-                    } else {
-                        logger.debug("Push service {} not enabled or not initialized for device: {}", 
-                            token.getPushService(), deviceId);
-                    }
-                } catch (Exception e) {
-                    logger.error("Failed to send push notification to device: {}", deviceId, e);
-                }
+                PushNotificationRequest request = new PushNotificationRequest();
+                request.setDeviceToken(token.getPushToken());
+                request.setPlatform(token.getPlatform());
+                request.setPushService(token.getPushService());
+                request.setTitle(title);
+                request.setBody(body);
+                request.setNotificationType("logout");
+                
+                // Send with retry logic (async)
+                unifiedPushService.sendNotification(request)
+                    .thenAccept(result -> {
+                        if (result.isSuccess()) {
+                            logger.info("Sent {} logout notification to device: {}", 
+                                token.getPushService(), deviceId);
+                        } else {
+                            logger.warn("Failed to send {} notification to device: {} - {}", 
+                                token.getPushService(), deviceId, result.getErrorMessage());
+                            
+                            // Mark token as inactive if invalid
+                            if (result.isTokenInvalid()) {
+                                markTokenInactive(token.getId());
+                            }
+                        }
+                    })
+                    .exceptionally(ex -> {
+                        logger.error("Exception sending notification to device: {}", deviceId, ex);
+                        return null;
+                    });
             }
         } catch (Exception e) {
             logger.error("Error sending logout notification to device: {}", deviceId, e);
+        }
+    }
+    
+    /**
+     * Mark token as inactive (called when token is invalid)
+     */
+    @Transactional
+    private void markTokenInactive(UUID tokenId) {
+        try {
+            Optional<DevicePushToken> tokenOpt = devicePushTokenRepository.findById(tokenId);
+            if (tokenOpt.isPresent()) {
+                DevicePushToken token = tokenOpt.get();
+                token.setIsActive(false);
+                devicePushTokenRepository.save(token);
+                logger.info("Marked push token as inactive: {}", tokenId);
+            }
+        } catch (Exception e) {
+            logger.error("Error marking token as inactive: {}", tokenId, e);
         }
     }
     
