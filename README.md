@@ -115,9 +115,9 @@ The system does not attempt to prevent all failures; instead, it ensures that **
 ## High-Level Architecture
 [ Client ]
 ↓
-[ WAF / API Gateway ]
+[ API Gateway ]  ← JWT validation, rate limiting, routing, security
 ↓
-[ Authentication & Authorization ]
+[ Auth Service ]  ← authentication, JWT, OTP
 ↓
 [ Transaction Orchestrator ]  ← single source of truth
 ↓
@@ -126,9 +126,11 @@ The system does not attempt to prevent all failures; instead, it ensures that **
 │ (balances)   │ (journal)    │ (rate lock)  │
 └──────────────┴──────────────┴──────────────┘
 ↓
-[ Scheduler Service ]
-↓
-[ Reconciliation Engine ]
+┌──────────────┬──────────────┬──────────────┐
+│ Scheduler    │ Reconcile    │ Notification │
+│ Service      │ Service      │ Service      │
+│              │              │ (FCM/APNS)   │
+└──────────────┴──────────────┴──────────────┘
 ↓
 [ Audit & Reporting ]
 
@@ -136,31 +138,111 @@ The system does not attempt to prevent all failures; instead, it ensures that **
 
 ## Core Services Overview
 
-| Service | Responsibility |
-|------|----------------|
-| Transaction Orchestrator | Global transaction state machine, idempotency, orchestration |
-| Account Service | Balance management and debit/credit |
-| Ledger Service | Immutable financial journal |
-| FX Service | FX rate locking and conversion |
-| Scheduler Service | Scheduled and recurring payment execution |
-| Reconciliation Service | Finalizing pending or ambiguous transactions |
-| Audit Service | Compliance-grade audit logging |
+| Service | Responsibility | Port |
+|------|----------------|------|
+| API Gateway | Request routing, JWT validation, rate limiting, security, logging | 8080 |
+| Auth Service | Authentication, JWT, OTP, device session management | 8088 |
+| Notification Service | Push notifications (FCM/APNS), device token management | 8089 |
+| Transaction Orchestrator | Global transaction state machine, idempotency, orchestration | 8081 |
+| Account Service | Balance management, home data, debit/credit | 8083 |
+| Ledger Service | Immutable financial journal | 8082 |
+| FX Service | FX rate locking and conversion | 8085 |
+| Scheduler Service | Scheduled and recurring payment execution | 8086 |
+| Reconciliation Service | Finalizing pending or ambiguous transactions | 8087 |
+| Audit Service | Compliance-grade audit logging | 8084 |
 
 ---
 
-## Technology Stack (Planned)
+## Technology Stack
 
 - Java 17+
-- Spring Boot
-- PostgreSQL
-- Flyway
-- Redis (rate limiting / caching)
+- Spring Boot 4.0.1
+- PostgreSQL 16 (unified database with schema separation)
+- Flyway (database migrations)
+- Redis (session management, rate limiting, caching)
+- JWT (authentication tokens)
+- BCrypt (password hashing)
+- Firebase Cloud Messaging (FCM) - Android push notifications
+- Apple Push Notification Service (APNS) - iOS push notifications
 - Kafka (audit events, async processing)
 - Prometheus & Grafana
 - OpenTelemetry
 - Docker / Kubernetes
 
 ---
+
+## API Gateway Features
+
+The API Gateway serves as the single entry point for all client requests and provides:
+
+### Core Functions
+- **Request Routing** - Routes requests to appropriate microservices based on path patterns
+- **JWT Token Validation** - Validates JWT tokens before allowing access to secured endpoints
+- **Rate Limiting** - Redis-based rate limiting (default: 20 requests/minute per account/IP)
+- **Request/Response Logging** - Comprehensive logging of all API requests with timing
+- **CORS Configuration** - Cross-origin resource sharing support
+- **Security Headers** - Validates X-Account-Id header for secured routes
+- **Account ID Verification** - Ensures X-Account-Id matches JWT token when both present
+
+### Request Flow
+1. **Request Logging** - Logs incoming request details
+2. **Rate Limiting** - Checks if request is within rate limits
+3. **Authentication** - Validates JWT token (for secured endpoints)
+4. **Account ID Validation** - Validates X-Account-Id header format and matches with token
+5. **Routing** - Routes to appropriate microservice
+
+### Public Endpoints
+- `/api/auth/**` - Authentication endpoints (no JWT required)
+- `/actuator/**` - Health check and metrics
+
+### Secured Endpoints
+- `/api/account/**` - Requires JWT + X-Account-Id header
+- `/api/transactions/**` - Requires JWT + X-Account-Id header
+- `/api/notifications/**` - Internal service (called by other services)
+
+## Authentication & Security Features
+
+### Authentication
+- **JWT-based authentication** with 24-hour token expiration
+- **BCrypt password encryption** (industry-standard hashing)
+- **Duplicate login prevention** - configurable per account
+- **Multi-device support** - mobile and web sessions
+- **OTP verification** for security-sensitive operations
+
+### Device Session Management
+- **MOBILE sessions** - single active session (if duplicate not allowed)
+- **WEB sessions** - multiple sessions allowed (always requires OTP)
+- **Session termination notifications** - real-time push to logged-out devices
+
+### Push Notifications
+- **FCM** (Firebase Cloud Messaging) for Android
+- **APNS** (Apple Push Notification Service) for iOS
+- **Auto-registration** - push tokens registered automatically during login
+- **Idempotent operations** - safe to retry without duplicates
+
+### Security Headers
+- **X-Account-Id** header required for all secured endpoints
+- Account context validation on every request
+
+## Database Architecture
+
+**Unified Database:** `jsb_cbs_unified`
+
+All microservices use a single PostgreSQL database with **schema-based separation**:
+
+| Service | Schema | Tables |
+|---------|--------|--------|
+| auth-service | auth_service | users, device_sessions, otp_requests |
+| notification-service | notification_service | device_push_tokens |
+| account-service | account_service | accounts, transactions, monthly_summary |
+| ledger-service | ledger_service | accounts, transactions, ledger_entries |
+| Other services | respective schemas | service-specific tables |
+
+Benefits:
+- Simplified backup and recovery
+- Easier monitoring and management
+- Logical isolation via schemas
+- Independent Flyway migrations per service
 
 ## Project Status
 
@@ -169,6 +251,7 @@ The system does not attempt to prevent all failures; instead, it ensures that **
 This repository is being developed incrementally, with a strong emphasis on:
 - architectural correctness,
 - failure handling,
+- security best practices (OWASP compliance),
 - and production readiness principles.
 
 ---

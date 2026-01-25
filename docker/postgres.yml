@@ -4,12 +4,13 @@ services:
     image: postgres:16
     container_name: core-banking-postgres
     environment:
-      POSTGRES_DB: orchestrator_db
-      POSTGRES_USER: orchestrator
-      POSTGRES_PASSWORD: orchestrator_pwd
+      POSTGRES_DB: jsb_cbs_unified
+      POSTGRES_USER: jsb
+      POSTGRES_PASSWORD: jsb
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
 volumes:
   pgdata:

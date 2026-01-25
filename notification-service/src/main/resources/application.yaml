@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: notification-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jsb_cbs_unified?currentSchema=notification_service
+    username: jsb
+    password: jsb
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: notification_service
+
+  flyway:
+    enabled: true
+    schemas: notification_service
+    default-schema: notification_service
+
+server:
+  port: 8089
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+app:
+  push:
+    fcm:
+      enabled: ${FCM_ENABLED:false}
+      service-account-key: ${FCM_SERVICE_ACCOUNT_KEY_PATH:}
+    apns:
+      enabled: ${APNS_ENABLED:false}
+      key-store-path: ${APNS_KEY_STORE_PATH:}
+      key-store-password: ${APNS_KEY_STORE_PASSWORD:}
+      team-id: ${APNS_TEAM_ID:}
+      key-id: ${APNS_KEY_ID:}
+      bundle-id: ${APNS_BUNDLE_ID:}
+      production: ${APNS_PRODUCTION:false}

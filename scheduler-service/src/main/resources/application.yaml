@@ -3,7 +3,7 @@ spring:
     name: scheduler-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/jsb_cbs_scheduler
+    url: jdbc:postgresql://localhost:5432/jsb_cbs_unified?currentSchema=scheduler_service
     username: jsb
     password: jsb
 
@@ -11,9 +11,14 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+    properties:
+      hibernate:
+        default_schema: scheduler_service
 
   flyway:
     enabled: true
+    schemas: scheduler_service
+    default-schema: scheduler_service
 
   quartz:
     job-store-type: jdbc

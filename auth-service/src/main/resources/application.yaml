@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: auth-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jsb_cbs_unified?currentSchema=auth_service
+    username: jsb
+    password: jsb
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: auth_service
+
+  flyway:
+    enabled: true
+    schemas: auth_service
+    default-schema: auth_service
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  security:
+    jwt:
+      secret: ${JWT_SECRET:your-256-bit-secret-key-change-in-production-minimum-32-characters}
+      expiration: 86400000 # 24 hours in milliseconds
+
+server:
+  port: 8088
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+app:
+  otp:
+    expiration-minutes: 5
+    length: 6
+  notification-service:
+    url: ${NOTIFICATION_SERVICE_URL:http://localhost:8089}
